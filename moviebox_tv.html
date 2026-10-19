@@ -1,0 +1,356 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<title>MovieBox TV</title>
+<style>
+:root{--bg:#08090c;--panel:#111319;--panel2:#191c24;--text:#f7f7fa;--muted:#a5a8b3;--red:#e50914;--red2:#ff2834;--focus:#fff;--gap:clamp(14px,1.6vw,28px);--side:clamp(28px,4vw,76px)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;overflow-x:hidden}button,input{font:inherit}button{color:inherit;cursor:pointer}button:focus-visible,input:focus-visible,[tabindex]:focus-visible{outline:3px solid var(--focus);outline-offset:4px}button:focus:not(:focus-visible),[tabindex]:focus:not(:focus-visible){outline:none}.app{min-height:100vh;background:radial-gradient(ellipse at 75% 0%,#251014 0%,transparent 35%),var(--bg)}.topbar{height:clamp(72px,8vh,104px);padding:0 var(--side);display:flex;align-items:center;gap:clamp(22px,3vw,54px);position:absolute;inset:0 0 auto;z-index:20;background:linear-gradient(180deg,rgba(0,0,0,.82),transparent)}.brand{font-size:clamp(24px,2.5vw,38px);font-weight:950;letter-spacing:-1.5px;color:var(--red);white-space:nowrap}.brand span{color:white}.nav{display:flex;align-items:center;gap:clamp(14px,2vw,30px)}.nav button,.top-action{border:0;background:transparent;color:#d5d6dc;font-size:clamp(14px,1.1vw,18px);padding:10px 2px}.nav button.active,.nav button:focus-visible{color:white;font-weight:800}.top-spacer{flex:1}.search-wrap{display:flex;align-items:center;gap:10px;background:rgba(12,13,17,.8);border:1px solid #4a4d57;border-radius:8px;padding:8px 12px;width:clamp(180px,21vw,320px)}.search-wrap span{font-size:20px}.search-wrap input{min-width:0;width:100%;border:0;outline:0;background:transparent;color:white;font-size:16px}.search-wrap:focus-within{border-color:white;box-shadow:0 0 0 2px #ffffff22}.profile{width:38px;height:38px;border-radius:7px;background:linear-gradient(135deg,#e50914,#5a111b);display:grid;place-items:center;font-weight:900}
+.hero{position:relative;min-height:clamp(500px,74vh,850px);display:flex;align-items:flex-end;padding:clamp(100px,13vh,155px) var(--side) clamp(58px,8vh,110px);isolation:isolate;overflow:hidden;background:#17151a}.hero-art{position:absolute;inset:0;z-index:-2;background-size:cover;background-position:center 35%;opacity:.82;transition:background-image .3s ease}.hero:before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,#08090c 0%,rgba(8,9,12,.91) 22%,rgba(8,9,12,.46) 53%,rgba(8,9,12,.08) 100%),linear-gradient(0deg,#08090c 0%,rgba(8,9,12,.72) 15%,transparent 64%),linear-gradient(180deg,rgba(0,0,0,.42),transparent 30%)}.hero-content{max-width:min(690px,56vw);padding-top:35px}.eyebrow{display:flex;align-items:center;gap:10px;color:#ddd;font-size:clamp(12px,1vw,16px);letter-spacing:2.5px;text-transform:uppercase;font-weight:800}.eyebrow .brand-mini{color:var(--red);letter-spacing:1px}.hero h1{font-size:clamp(42px,6vw,88px);line-height:.98;letter-spacing:-2.7px;margin:20px 0 22px;font-weight:950;text-shadow:0 3px 30px #0008}.meta{display:flex;gap:14px;align-items:center;flex-wrap:wrap;color:#ddd;font-size:clamp(14px,1.2vw,18px);margin-bottom:18px}.match{color:#46d369;font-weight:800}.quality{border:1px solid #888;padding:2px 6px;border-radius:3px;font-size:12px}.hero p{color:#e0e0e3;font-size:clamp(15px,1.35vw,20px);line-height:1.55;max-width:620px;margin:0 0 27px;text-shadow:0 2px 15px #000}.hero-buttons{display:flex;gap:14px;flex-wrap:wrap}.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:clamp(48px,5.6vh,64px);padding:0 clamp(20px,2.3vw,34px);border:0;border-radius:5px;font-weight:850;font-size:clamp(15px,1.2vw,19px);transition:transform .16s,background .16s,box-shadow .16s}.btn-primary{background:#fff;color:#111}.btn-secondary{background:rgba(109,109,110,.7);color:white}.btn:hover,.btn:focus-visible{transform:scale(1.04);box-shadow:0 0 0 3px #ffffff55}.btn-primary:hover,.btn-primary:focus-visible{background:#e7e7e7}.btn-secondary:hover,.btn-secondary:focus-visible{background:rgba(109,109,110,.95)}
+.content{position:relative;margin-top:-35px;padding:0 var(--side) 70px;z-index:3}.shelf{margin:0 0 clamp(32px,4.5vh,56px)}.shelf-head{display:flex;align-items:center;gap:12px;margin-bottom:16px}.shelf h2{font-size:clamp(20px,1.8vw,29px);letter-spacing:-.5px;margin:0;font-weight:850}.shelf-sub{font-size:13px;color:var(--muted)}.shelf-tools{margin-left:auto;display:flex;gap:8px}.circle-btn{width:38px;height:38px;border-radius:50%;border:1px solid #454751;background:#16181e;font-size:20px;display:grid;place-items:center}.circle-btn:focus-visible,.circle-btn:hover{background:#30333c}.rail{display:flex;gap:var(--gap);overflow-x:auto;overflow-y:hidden;padding:8px 6px 18px;scrollbar-width:none;scroll-snap-type:x proximity}.rail::-webkit-scrollbar{display:none}.poster-card{position:relative;flex:0 0 clamp(140px,13.3vw,220px);aspect-ratio:2/3;border:0;padding:0;border-radius:7px;overflow:hidden;background:linear-gradient(135deg,#242631,#111217);scroll-snap-align:start;text-align:left;transform:translateZ(0);transition:transform .18s,box-shadow .18s;isolation:isolate}.poster-card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-1;transition:transform .25s}.poster-card:after{content:"";position:absolute;inset:35% 0 0;background:linear-gradient(0deg,rgba(0,0,0,.94),transparent);z-index:-1}.poster-card:focus-visible,.poster-card:hover{transform:scale(1.055);box-shadow:0 0 0 3px white,0 12px 34px #0009;z-index:4}.poster-title{position:absolute;left:12px;right:12px;bottom:12px;font-size:clamp(13px,1vw,16px);font-weight:800;line-height:1.25;text-shadow:0 2px 6px black}.poster-tag{position:absolute;top:10px;left:10px;background:var(--red);font-size:10px;font-weight:900;letter-spacing:.7px;padding:5px 7px;border-radius:3px}.poster-number{position:absolute;left:8px;bottom:6px;font-size:clamp(48px,5vw,82px);font-weight:950;color:#090a0d;-webkit-text-stroke:2px #e7e7e7;text-shadow:0 3px 9px #000;z-index:2;pointer-events:none}.poster-card.numbered .poster-title{left:55px}
+.state{padding:18px 0;color:var(--muted);font-size:15px}.empty{padding:50px 20px;border:1px solid #252832;border-radius:12px;background:#101116;text-align:center;color:var(--muted)}
+.overlay{position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.78);display:none;align-items:center;justify-content:center;padding:4vw}.overlay.open{display:flex}.dialog{width:min(1100px,95vw);max-height:90vh;overflow:auto;background:#111319;border:1px solid #343741;border-radius:14px;box-shadow:0 25px 90px #000b;position:relative}.dialog-art{height:clamp(190px,34vh,340px);background-size:cover;background-position:center 35%;position:relative}.dialog-art:after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,#111319,transparent 75%),linear-gradient(90deg,#11131988,transparent)}.dialog-close{position:absolute;right:18px;top:18px;z-index:2;width:44px;height:44px;border:0;border-radius:50%;background:#17191f;color:white;font-size:26px}.dialog-body{position:relative;margin-top:-75px;padding:0 clamp(22px,3vw,42px) 36px;z-index:2}.dialog h2{font-size:clamp(30px,3.5vw,48px);margin:0 0 14px;letter-spacing:-1px}.dialog-description{color:#d0d1d8;line-height:1.6;max-width:780px}.detail-actions{display:flex;gap:12px;flex-wrap:wrap;margin:22px 0}.episode-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;margin-top:18px}.episode{display:flex;gap:12px;align-items:center;text-align:left;padding:14px;background:#20232b;border:1px solid transparent;border-radius:7px;min-height:68px}.episode:hover,.episode:focus-visible{background:#2a2e38;border-color:white}.episode-num{font-size:20px;color:#aaa;font-weight:900}.episode-title{font-weight:750}.episode-sub{font-size:12px;color:#a9abb4;margin-top:4px}
+.player-overlay{background:#000;padding:0}.player-shell{width:100%;height:100%;display:flex;flex-direction:column;background:#000}.player-top{display:flex;align-items:center;gap:18px;padding:18px 26px;background:linear-gradient(#000b,transparent)}.player-top h2{font-size:20px;margin:0}.player-top .top-spacer{flex:1}.player-close{border:1px solid #666;background:#191919;border-radius:5px;padding:10px 18px}.video-wrap{flex:1;min-height:0;display:grid;place-items:center;position:relative}.video-wrap video{width:100%;height:100%;object-fit:contain;background:#000}.player-help{color:#999;font-size:12px;padding:12px 26px}.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%);z-index:100;background:#f5f5f5;color:#111;padding:12px 20px;border-radius:8px;box-shadow:0 10px 35px #0009;display:none;max-width:85vw}.toast.show{display:block}.settings{position:fixed;right:20px;bottom:20px;z-index:30}.settings button{border:1px solid #444;background:#14161c;border-radius:50%;width:44px;height:44px;font-size:20px}.settings-panel{display:none;position:absolute;right:0;bottom:54px;width:min(380px,88vw);background:#16181e;border:1px solid #444;padding:18px;border-radius:10px;box-shadow:0 10px 40px #0009}.settings-panel.open{display:block}.settings-panel label{display:block;color:#ccc;font-size:13px;margin:12px 0 6px}.settings-panel input{width:100%;padding:10px;border-radius:6px;border:1px solid #555;background:#08090c;color:white}.settings-panel .btn{margin-top:14px;min-height:42px;font-size:14px;width:100%}.footer{padding:0 var(--side) 32px;color:#666;font-size:12px}
+@media(max-width:850px){.nav{display:none}.hero{min-height:72vh}.hero-content{max-width:80vw}.hero:before{background:linear-gradient(90deg,#08090c 0%,rgba(8,9,12,.76) 55%,rgba(8,9,12,.25)),linear-gradient(0deg,#08090c,transparent 65%)}.search-wrap{width:min(42vw,260px)}.poster-card{flex-basis:clamp(125px,24vw,185px)}}
+@media(max-width:520px){:root{--side:18px}.topbar{gap:12px}.brand{font-size:23px}.search-wrap{width:38vw;padding:7px}.search-wrap input{font-size:13px}.profile{display:none}.hero{min-height:620px;padding-bottom:76px}.hero-content{max-width:100%}.hero h1{font-size:46px}.hero p{font-size:15px}.poster-card{flex-basis:39vw}.content{margin-top:-20px}.overlay{padding:0}.dialog{width:100%;height:100%;max-height:100vh;border-radius:0}.dialog-art{height:30vh}.dialog-body{margin-top:-48px}.player-top{padding:12px}.player-top h2{font-size:16px}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="app" id="app">
+  <header class="topbar">
+    <div class="brand">MOVIE<span>BOX</span></div>
+    <nav class="nav" aria-label="Main navigation">
+      <button class="active" data-section="home">Home</button>
+      <button data-section="movies">Movies</button>
+      <button data-section="series">TV Series</button>
+    </nav>
+    <div class="top-spacer"></div>
+    <label class="search-wrap" aria-label="Search movies and series"><span>⌕</span><input id="search" type="search" placeholder="Search titles…" autocomplete="off" /></label>
+    <div class="profile" title="MovieBox">M</div>
+  </header>
+  <main>
+    <section class="hero" id="hero">
+      <div class="hero-art" id="heroArt"></div>
+      <div class="hero-content">
+        <div class="eyebrow"><span class="brand-mini">M</span> MOVIEBOX ORIGINAL</div>
+        <h1 id="heroTitle">Your next favourite<br>starts here.</h1>
+        <div class="meta" id="heroMeta"><span class="match">● Ready to explore</span><span>Movies & Series</span><span class="quality">HD</span></div>
+        <p id="heroDescription">Discover films and series from your library. Connect this TV interface to your FastAPI backend to load real titles.</p>
+        <div class="hero-buttons"><button class="btn btn-primary" id="heroPlay">▶ Play</button><button class="btn btn-secondary" id="heroInfo">ⓘ More Info</button></div>
+      </div>
+    </section>
+    <section class="content" id="shelves">
+      <div class="state" id="loading">Connecting to your MovieBox API…</div>
+      <div id="shelfHome"></div>
+      <div id="searchResults"></div>
+    </section>
+  </main>
+  <footer class="footer">MovieBox TV · Use ← → ↑ ↓ and Enter on your TV remote · Playback depends on browser and stream format support.</footer>
+</div>
+
+<div class="overlay" id="detailOverlay" aria-hidden="true">
+  <article class="dialog" role="dialog" aria-modal="true" aria-labelledby="detailTitle">
+    <div class="dialog-art" id="detailArt"></div>
+    <button class="dialog-close" id="detailClose" aria-label="Close details">×</button>
+    <div class="dialog-body">
+      <h2 id="detailTitle">Title</h2>
+      <div class="meta" id="detailMeta"></div>
+      <p class="dialog-description" id="detailDescription"></p>
+      <div class="detail-actions"><button class="btn btn-primary" id="detailPlay">▶ Play</button><button class="btn btn-secondary" id="detailBack">← Back</button></div>
+      <div id="episodeArea"></div>
+    </div>
+  </article>
+</div>
+
+<div class="overlay player-overlay" id="playerOverlay" aria-hidden="true">
+  <div class="player-shell">
+    <div class="player-top"><button class="player-close" id="playerClose">✕ Close</button><h2 id="playerTitle">Now Playing</h2><div class="top-spacer"></div><button class="player-close" id="fullscreenBtn">⛶ Fullscreen</button></div>
+    <div class="video-wrap"><video id="video" controls playsinline preload="metadata"></video></div>
+    <div class="player-help">Remote: Enter/OK toggles playback controls · Back/Escape closes player · Seeking and subtitles depend on the selected stream.</div>
+  </div>
+</div>
+
+<div class="settings">
+  <div class="settings-panel" id="settingsPanel">
+    <strong>API connection</strong>
+    <label for="apiBase">FastAPI base URL</label>
+    <input id="apiBase" type="url" placeholder="https://your-api.example.com" />
+    <div style="color:#999;font-size:12px;line-height:1.45;margin-top:8px">Leave blank to use this website's origin. If the API is on another host, enable CORS for this website's origin in FastAPI.</div>
+    <button class="btn btn-primary" id="saveApi">Save & reconnect</button>
+  </div>
+  <button id="settingsToggle" aria-label="API settings" title="API settings">⚙</button>
+</div>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+(() => {
+  "use strict";
+  const $ = (s, root=document) => root.querySelector(s);
+  const $$ = (s, root=document) => [...root.querySelectorAll(s)];
+  const state = { apiBase:"", home:[], movies:[], series:[], search:[], selected:null, detail:null, hero:null, lastFocus:null, section:"home", searchTimer:null, currentStream:null };
+  const els = {
+    loading:$("#loading"), shelfHome:$("#shelfHome"), searchResults:$("#searchResults"),
+    heroArt:$("#heroArt"), heroTitle:$("#heroTitle"), heroMeta:$("#heroMeta"), heroDescription:$("#heroDescription"),
+    detailOverlay:$("#detailOverlay"), playerOverlay:$("#playerOverlay"), video:$("#video")
+  };
+  const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+  const first = (...v) => v.find(x => x !== undefined && x !== null && x !== "");
+  const base = () => (state.apiBase || location.origin).replace(/\/+$/,"");
+  function notify(msg){const t=$("#toast");t.textContent=msg;t.classList.add("show");clearTimeout(notify.timer);notify.timer=setTimeout(()=>t.classList.remove("show"),3300)}
+  async function api(path, options={}) {
+    const url = `${base()}${path.startsWith("/") ? path : "/"+path}`;
+    const r = await fetch(url, { ...options, headers:{"Accept":"application/json",...(options.headers||{})} });
+    if(!r.ok) throw new Error(`${r.status} ${r.statusText} — ${path}`);
+    const type=r.headers.get("content-type")||"";
+    return type.includes("json") ? r.json() : r.text();
+  }
+  function asArray(data){
+    if(Array.isArray(data)) return data;
+    for(const k of ["data","results","items","list","subjects","movies","series","recommendations","records","contents"]){
+      if(Array.isArray(data?.[k])) return data[k];
+    }
+    if(data && typeof data==="object"){
+      for(const v of Object.values(data)) if(Array.isArray(v)) return v;
+    }
+    return [];
+  }
+  function normalize(item={}){
+    const d=item.subject || item.movie || item.video || item.info || item;
+    const id=first(d.subjectId,d.subject_id,d.id,d.vodId,d.contentId,d.media_id,item.subjectId,item.id);
+    const title=first(d.title,d.name,d.subjectName,d.subject_name,d.originalTitle,d.displayName,"Untitled");
+    const poster=first(d.cover,d.coverUrl,d.poster,d.posterUrl,d.image,d.imageUrl,d.thumbnail,d.thumb,d.pic,d.img,d.verticalCover,"");
+    const backdrop=first(d.backdrop,d.backdropUrl,d.still,d.stillUrl,d.horizontalCover,d.landscapeCover,d.coverHorizontal,d.banner,d.background,poster);
+    const description=first(d.description,d.introduction,d.synopsis,d.overview,d.plot,d.desc,"No description available.");
+    const year=first(d.year,d.releaseYear,d.release_date,d.releaseDate,d.airYear,"");
+    const rating=first(d.imdbRating,d.rating,d.score,"");
+    const kind=String(first(d.contentType,d.type,d.subjectType,d.category,item.type,"")).toLowerCase();
+    const episodes=first(d.episodes,d.episodeList,d.seasons,[]);
+    return {raw:item,id:id==null?null:String(id),title:String(title),poster:String(poster||""),backdrop:String(backdrop||poster||""),description:String(description),year:String(year||""),rating:String(rating||""),kind,episodes};
+  }
+  function dedupe(items){const seen=new Set();return items.map(normalize).filter(x=>{const key=x.id||x.title;if(seen.has(key))return false;seen.add(key);return true})}
+  function imageUrl(url){return url && /^(https?:|data:image\/)/i.test(url) ? url : ""}
+  function posterCard(item,index=0){
+    const label=item.title;
+    const img=imageUrl(item.poster);
+    return `<button class="poster-card ${index<3?"numbered":""}" data-id="${esc(item.id??"")}" data-title="${esc(label)}" aria-label="${esc(label)}${item.year?", "+esc(item.year):""}" tabindex="0">
+      ${img?`<img loading="lazy" src="${esc(img)}" alt="" onerror="this.style.display='none'">`:""}
+      ${index<3?`<span class="poster-number">${index+1}</span>`:""}
+      ${index===0?'<span class="poster-tag">FEATURED</span>':""}
+      <span class="poster-title">${esc(label)}</span>
+    </button>`;
+  }
+  function shelf(title,items,key){
+    if(!items.length)return "";
+    return `<section class="shelf"><div class="shelf-head"><h2>${esc(title)}</h2><span class="shelf-sub">${items.length} titles</span><div class="shelf-tools"><button class="circle-btn" data-scroll="-1" data-rail="${esc(key)}" aria-label="Scroll left">‹</button><button class="circle-btn" data-scroll="1" data-rail="${esc(key)}" aria-label="Scroll right">›</button></div></div><div class="rail" id="${esc(key)}">${items.map((x,i)=>posterCard(x,i)).join("")}</div></section>`;
+  }
+  function setHero(item){
+    if(!item)return;
+    state.hero=item;
+    const art=imageUrl(item.backdrop)||imageUrl(item.poster);
+    els.heroArt.style.backgroundImage=art?`url("${art.replace(/"/g,"%22")}")`:"linear-gradient(130deg,#271116,#101116 70%)";
+    els.heroTitle.textContent=item.title;
+    els.heroMeta.innerHTML=`<span class="match">● ${item.rating?esc(item.rating)+" rating":"Featured"}</span>${item.year?`<span>${esc(item.year)}</span>`:""}<span class="quality">HD</span>`;
+    els.heroDescription.textContent=item.description;
+  }
+  function renderHome(){
+    const h=state.home, m=state.movies, s=state.series;
+    const all=dedupe([...h,...m,...s]);
+    if(!state.hero && all.length)setHero(all[0]);
+    const recent=dedupe([...h,...m,...s]);
+    els.shelfHome.innerHTML=[
+      shelf("Continue Exploring",recent.slice(0,14),"rail-home"),
+      shelf("Popular Movies",m.length?m:recent.filter(x=>!x.kind.includes("tv")&&!x.kind.includes("series")).slice(0,14),"rail-movies"),
+      shelf("TV Series & Episodes",s.length?s:recent.filter(x=>x.kind.includes("tv")||x.kind.includes("series")).slice(0,14),"rail-series")
+    ].join("") || `<div class="empty">No titles found yet. Check your API URL and endpoint response format.</div>`;
+    els.loading.style.display="none";
+  }
+  function openDetails(item){
+    if(!item)return;
+    state.selected=item;state.lastFocus=document.activeElement;
+    $("#detailTitle").textContent=item.title;
+    const art=imageUrl(item.backdrop)||imageUrl(item.poster);
+    $("#detailArt").style.backgroundImage=art?`url("${art.replace(/"/g,"%22")}")`:"linear-gradient(130deg,#271116,#101116)";
+    $("#detailMeta").innerHTML=`${item.year?`<span>${esc(item.year)}</span>`:""}${item.rating?`<span class="match">★ ${esc(item.rating)}</span>`:""}<span class="quality">${item.kind.toLowerCase().includes("tv")||item.kind.toLowerCase().includes("series")?"SERIES":"HD"}</span>`;
+    $("#detailDescription").textContent=item.description;
+    $("#episodeArea").innerHTML="";
+    els.detailOverlay.classList.add("open");els.detailOverlay.setAttribute("aria-hidden","false");
+    $("#detailPlay").focus();
+    loadDetail(item).catch(e=>console.warn("Detail request:",e.message));
+  }
+  async function loadDetail(item){
+    if(item.id==null)return;
+    try{
+      const data=await api(`/detail/${encodeURIComponent(item.id)}`);
+      const normalized=normalize(data?.data||data?.subject||data);
+      const merged={...item,...normalized,raw:data};
+      if(merged.title==="Untitled")merged.title=item.title;
+      state.detail=merged;state.selected=merged;
+      if(merged.description && merged.description!=="No description available.")$("#detailDescription").textContent=merged.description;
+      const epData=await api(`/episodes/${encodeURIComponent(item.id)}`).catch(()=>null);
+      const eps=extractEpisodes(epData);
+      if(eps.length){
+        $("#episodeArea").innerHTML=`<h3>Episodes</h3><div class="episode-list">${eps.map((ep,i)=>`<button class="episode" data-episode="${i}" data-id="${esc(first(ep.id,ep.subjectId,ep.episodeId,item.id))}"><span class="episode-num">${String(i+1).padStart(2,"0")}</span><span><span class="episode-title">${esc(first(ep.title,ep.name,ep.episodeName,`Episode ${i+1}`))}</span><span class="episode-sub">${esc(first(ep.duration,ep.time,"Select to play"))}</span></span></button>`).join("")}</div>`;
+        $$(".episode",$("#episodeArea")).forEach((b,i)=>b.addEventListener("click",()=>playItem({...merged,episode:eps[i],episodeIndex:i})));
+      }
+    }catch(e){console.warn("Could not load detail/episodes:",e.message)}
+  }
+  function extractEpisodes(data){
+    if(!data)return [];
+    if(Array.isArray(data))return data;
+    for(const k of ["episodes","episodeList","list","data","results","items","videos"]){
+      const v=data?.[k];if(Array.isArray(v))return v;
+      if(v&&typeof v==="object")for(const z of Object.values(v))if(Array.isArray(z))return z;
+    }
+    return [];
+  }
+  function extractStream(data){
+    if(typeof data==="string")return data;
+    if(!data||typeof data!=="object")return "";
+    const direct=first(data.url,data.playUrl,data.play_url,data.streamUrl,data.stream_url,data.src,data.videoUrl,data.video_url,data.m3u8,data.mp4,data.manifestUrl,data.manifest_url);
+    if(direct)return typeof direct==="string"?direct:first(direct.url,direct.src,"");
+    for(const k of ["data","result","stream","sources","streams","playInfo","play_info"]){
+      const v=data[k];
+      if(typeof v==="string")return v;
+      if(Array.isArray(v)){for(const x of v){const u=extractStream(x);if(u)return u}}
+      if(v&&typeof v==="object"){const u=extractStream(v);if(u)return u}
+    }
+    return "";
+  }
+  async function playItem(item){
+    const target=item||state.selected;if(!target)return;
+    const ep=target.episode;
+    const id=first(ep?.subjectId,ep?.subject_id,ep?.id,ep?.episodeId,ep?.episode_id,target.id);
+    if(id==null){notify("This item has no playable content ID.");return}
+    try{
+      const data=await api(`/api/stream/${encodeURIComponent(id)}`);
+      const url=extractStream(data);
+      if(!url){notify("No compatible stream URL returned by the API.");console.warn("Stream response shape:",data);return}
+      if(!/^https?:\/\//i.test(url)){notify("The API returned an invalid stream URL.");return}
+      startPlayer(url,`${target.title}${ep?` — ${first(ep.title,ep.name,`Episode ${(target.episodeIndex||0)+1}`)}`:""}`);
+    }catch(e){notify(`Playback request failed: ${e.message}`)}
+  }
+  function startPlayer(url,title){
+    state.currentStream=url;$("#playerTitle").textContent=title||"Now Playing";
+    els.video.pause();els.video.removeAttribute("src");els.video.load();
+    els.playerOverlay.classList.add("open");els.playerOverlay.setAttribute("aria-hidden","false");
+    els.video.src=url;els.video.load();
+    const p=els.video.play();if(p&&p.catch)p.catch(()=>notify("Press Play on the video controls to start playback."));
+    $("#playerClose").focus();
+  }
+  function closeDetails(){
+    els.detailOverlay.classList.remove("open");els.detailOverlay.setAttribute("aria-hidden","true");
+    if(state.lastFocus?.focus)state.lastFocus.focus();
+  }
+  function closePlayer(){
+    els.video.pause();els.video.removeAttribute("src");els.video.load();
+    els.playerOverlay.classList.remove("open");els.playerOverlay.setAttribute("aria-hidden","true");
+    $("#detailPlay").focus();
+  }
+  async function loadAll(){
+    els.loading.style.display="block";els.loading.textContent="Connecting to your MovieBox API…";
+    try{
+      const [home,movies,series]=await Promise.all([
+        api("/home").catch(()=>null),api("/movies").catch(()=>null),api("/tv-series").catch(()=>null)
+      ]);
+      state.home=dedupe(asArray(home));
+      state.movies=dedupe(asArray(movies));
+      state.series=dedupe(asArray(series));
+      if(!state.home.length&&!state.movies.length&&!state.series.length){
+        const fallback=home?normalize(home):null;
+        els.loading.textContent="API connected, but no title arrays were detected. Check endpoint response shapes in the browser console.";
+        console.warn("API payloads:",{home,movies,series});
+        renderHome();return;
+      }
+      renderHome();
+      notify("MovieBox library loaded.");
+    }catch(e){
+      els.loading.textContent=`Could not connect to API: ${e.message}. Open ⚙ to set the FastAPI base URL.`;
+      els.shelfHome.innerHTML=`<div class="empty"><h2>Can't reach MovieBox API</h2><p>Open the settings gear and enter your FastAPI server URL. Make sure the API is reachable from the TV browser and CORS is configured if it is on another host.</p><button class="btn btn-primary" onclick="document.getElementById('settingsToggle').click()">API Settings</button></div>`;
+    }
+  }
+  async function searchTitles(q){
+    const host=els.searchResults;
+    if(!q.trim()){host.innerHTML="";$("#shelfHome").style.display="";return}
+    $("#shelfHome").style.display="none";host.innerHTML=`<div class="shelf"><div class="shelf-head"><h2>Search results</h2></div><div class="state">Searching…</div></div>`;
+    let items=[];
+    try{items=dedupe(asArray(await api(`/search?keyword=${encodeURIComponent(q.trim())}`)))}catch(e){
+      try{items=dedupe(asArray(await api(`/search?q=${encodeURIComponent(q.trim())}`)))}catch(_){}
+    }
+    if(!items.length){
+      const all=dedupe([...state.home,...state.movies,...state.series]);
+      items=all.filter(x=>x.title.toLowerCase().includes(q.toLowerCase()));
+    }
+    state.search=items;
+    host.innerHTML=items.length?shelf(`Results for “${q}”`,items,"rail-search"):`<div class="empty">No titles found for “${esc(q)}”.</div>`;
+  }
+  function focusable(){return $$('button:not([disabled]),input:not([disabled]),[tabindex="0"]').filter(e=>e.offsetParent!==null&&!e.closest('[aria-hidden="true"]'))}
+  function moveFocus(key){
+    const current=document.activeElement;
+    if(!current||!current.matches('button,input,[tabindex="0"]'))return false;
+    if(current.id==="search"&&key==="ArrowDown"){const b=$$(".poster-card")[0];if(b){b.focus();return true}return false}
+    if(current.classList.contains("poster-card")){
+      const rail=current.closest(".rail");if(!rail)return false;
+      const cards=$$(".poster-card",rail);const idx=cards.indexOf(current);
+      if(key==="ArrowRight"&&idx<cards.length-1){cards[idx+1].focus();cards[idx+1].scrollIntoView({block:"nearest",inline:"nearest"});return true}
+      if(key==="ArrowLeft"&&idx>0){cards[idx-1].focus();cards[idx-1].scrollIntoView({block:"nearest",inline:"nearest"});return true}
+      if(key==="ArrowDown"){
+        const shelves=$$(".shelf",$("#shelfHome").style.display==="none"?els.searchResults:els.shelfHome);
+        const shelfIdx=shelves.indexOf(current.closest(".shelf"));const next=shelves[shelfIdx+1];
+        if(next){const b=$$(".poster-card",next)[Math.min(idx,$$(".poster-card",next).length-1)];if(b){b.focus();b.scrollIntoView({block:"nearest"});return true}}
+        return false;
+      }
+      if(key==="ArrowUp"){
+        const shelf=current.closest(".shelf");const all=$$(".shelf",$("#shelfHome").style.display==="none"?els.searchResults:els.shelfHome);const i=all.indexOf(shelf);
+        if(i>0){const cards=$$(".poster-card",all[i-1]);const b=cards[Math.min(idx,cards.length-1)];if(b){b.focus();b.scrollIntoView({block:"nearest"});return true}}
+        const info=$("#heroInfo");info.focus();return true;
+      }
+    }
+    return false;
+  }
+  document.addEventListener("keydown",e=>{
+    if(["ArrowUp","ArrowDown","ArrowLeft","ArrowRight"].includes(e.key)){
+      if(moveFocus(e.key)){e.preventDefault();return}
+    }
+    if(e.key==="Escape"||e.key==="Backspace"){
+      if(els.playerOverlay.classList.contains("open")){e.preventDefault();closePlayer()}
+      else if(els.detailOverlay.classList.contains("open")){e.preventDefault();closeDetails()}
+      else if($("#settingsPanel").classList.contains("open")){$("#settingsPanel").classList.remove("open")}
+      else if($("#search")===document.activeElement){$("#search").blur();$("#search").value="";searchTitles("")}
+    }
+  });
+  document.addEventListener("click",e=>{
+    const card=e.target.closest(".poster-card");
+    if(card){const all=dedupe([...state.home,...state.movies,...state.series]);const item=all.find(x=>String(x.id)===card.dataset.id)||[...state.search].find(x=>String(x.id)===card.dataset.id)||all.find(x=>x.title===card.dataset.title);if(item)openDetails(item)}
+    const sc=e.target.closest("[data-scroll]");
+    if(sc){const rail=document.getElementById(sc.dataset.rail);if(rail)rail.scrollBy({left:Number(sc.dataset.scroll)*rail.clientWidth*.78,behavior:"smooth"})}
+  });
+  $("#heroInfo").addEventListener("click",()=>openDetails(state.hero));
+  $("#heroPlay").addEventListener("click",()=>playItem(state.hero));
+  $("#detailClose").addEventListener("click",closeDetails);$("#detailBack").addEventListener("click",closeDetails);
+  $("#detailPlay").addEventListener("click",()=>playItem(state.detail||state.selected));
+  $("#playerClose").addEventListener("click",closePlayer);
+  $("#fullscreenBtn").addEventListener("click",async()=>{try{if(!document.fullscreenElement)await $("#video").requestFullscreen();else await document.exitFullscreen()}catch(e){notify("Fullscreen is not available in this browser.")}});
+  $("#search").addEventListener("input",e=>{clearTimeout(state.searchTimer);state.searchTimer=setTimeout(()=>searchTitles(e.target.value),320)});
+  $("#settingsToggle").addEventListener("click",()=>$("#settingsPanel").classList.toggle("open"));
+  $("#saveApi").addEventListener("click",()=>{state.apiBase=$("#apiBase").value.trim().replace(/\/+$/,"");try{if(state.apiBase)new URL(state.apiBase)}catch(e){notify("Enter a valid URL including https://");return}$("#settingsPanel").classList.remove("open");loadAll()});
+  $$(".nav button").forEach(btn=>btn.addEventListener("click",()=>{
+    $$(".nav button").forEach(b=>b.classList.toggle("active",b===btn));
+    const section=btn.dataset.section;state.section=section;
+    if(section==="home"){renderHome();$("#shelfHome").style.display="";els.searchResults.innerHTML=""}
+    else{
+      const items=section==="movies"?(state.movies.length?state.movies:state.home):(state.series.length?state.series:state.home);
+      $("#shelfHome").style.display="";els.searchResults.innerHTML="";
+      $("#shelfHome").innerHTML=shelf(section==="movies"?"Movies":"TV Series",items,`rail-${section}`);
+    }
+    const firstCard=$$(".poster-card")[0];if(firstCard)firstCard.focus();
+  }));
+  // Optional HLS/DASH libraries may be added by a site owner if their TV browsers require them.
+  // Native browser playback is attempted first; stream support varies by TV manufacturer.
+  loadAll();
+})();
+</script>
+</body>
+</html>
